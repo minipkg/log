@@ -32,6 +32,8 @@ type ILogger interface {
 	Sync() error
 	// Print uses fmt.Sprint to construct and log a message at DEBUG level
 	Print(v ...interface{})
+	// Printf uses fmt.Sprintf to construct and log a message at DEBUG level
+	Printf(string, ...interface{})
 }
 
 // Logger struct
@@ -43,6 +45,10 @@ var _ ILogger = (*Logger)(nil)
 
 func (l *Logger) Print(v ...interface{}) {
 	l.Debug(v)
+}
+
+func (l *Logger) Printf(format string, v ...interface{}) {
+	l.Debugf(format, v)
 }
 
 type contextKey int

@@ -39,6 +39,7 @@ type ILogger interface {
 // Logger struct
 type Logger struct {
 	*zap.SugaredLogger
+	ZapLogger *zap.Logger
 }
 
 var _ ILogger = (*Logger)(nil)
@@ -127,7 +128,10 @@ func NewByDefault() *Logger {
 
 // NewWithZap creates a new logger using the preconfigured zap logger.
 func NewWithZap(l *zap.Logger) *Logger {
-	return &Logger{l.Sugar()}
+	return &Logger{
+		SugaredLogger: l.Sugar(),
+		ZapLogger:     l,
+	}
 }
 
 // With returns a logger based off the root logger and decorates it with the given context and arguments.
@@ -147,7 +151,10 @@ func (l *Logger) With(ctx context.Context, args ...interface{}) *Logger {
 		}
 	}
 	if len(args) > 0 {
-		return &Logger{l.SugaredLogger.With(args...)}
+		return &Logger{
+			SugaredLogger: l.SugaredLogger.With(args...),
+			ZapLogger:     l.ZapLogger,
+		}
 	}
 	return l
 }

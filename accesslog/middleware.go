@@ -12,7 +12,7 @@ import (
 )
 
 // Handler returns a middleware that records an access log message for every HTTP request being processed.
-func Handler(logger log.ILogger) routing.Handler {
+func Handler(logger log.Logger) routing.Handler {
 	return func(c *routing.Context) error {
 		start := time.Now()
 

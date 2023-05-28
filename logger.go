@@ -8,6 +8,7 @@ import (
 	"github.com/pkg/errors"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+	gorm_logger "gorm.io/gorm/logger"
 )
 
 // Logger interface
@@ -44,6 +45,7 @@ type logger struct {
 	zapLogger *zap.Logger
 }
 
+var _ gorm_logger.Writer = (*logger)(nil)
 var _ Logger = (*logger)(nil)
 
 func (l *logger) Print(v ...interface{}) {
